@@ -1,4 +1,10 @@
 
+import java.lang.reflect.Array;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -6,10 +12,7 @@ import org.junit.jupiter.api.Test;
  * @since 7/17/2020
  */
 public class q1_10 {
-    
-    public static void main(String[] args) {
 
-    }
     /**
      If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9.
      The sum of these multiples is 23.
@@ -33,6 +36,34 @@ public class q1_10 {
         }
         System.out.println("TOTAL=" + sum);
         System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
+    }
+    @Test
+    void q1b_Multiples_of_3_and_5 () {
+        long startTime = System.nanoTime();
+        long limit = 999999999L;
+        long s3 = sum(limit,3);
+        long s5 = sum(limit,5);
+        long s15 = sum(limit,15);
+
+        System.out.println(s3 + s5 - s15);
+        System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
+    }
+    static long sum (long n, int k) {
+        return k * ( (n/k * ((n/k)+1))) / 2;
+    }
+    @Test
+    void q1c_Multiples_of_3_and_5 () {
+        long startTime = System.nanoTime();
+        BigInteger limit = new BigInteger("9999999999999999999999999999999999999999");
+        BigInteger s3 = sum(limit,BigInteger.valueOf(3));
+        BigInteger s5 = sum(limit,BigInteger.valueOf(5));
+        BigInteger s15 = sum(limit,BigInteger.valueOf(15));
+
+        System.out.println(s3.add(s5).subtract(s15));
+        System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
+    }
+    static BigInteger sum(BigInteger n, BigInteger k){
+        return k.multiply(n.divide(k).multiply(n.divide(k).add(BigInteger.valueOf(1)))).divide(BigInteger.valueOf(2));
     }
 
     /**
@@ -103,7 +134,307 @@ public class q1_10 {
         System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
     }
 
+    /**Largest palindrome product
+	A palindromic number reads the same both ways. 
+	The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
+
+	Find the largest palindrome made from the product of two 3-digit numbers.
+    ANSWER = 906609
+    Time elapsed in seconds: 0.0005023
+    */
     @Test
-    void q4 () {
+    void q4_Largest_palindrome_product () {
+
+        long startTime = System.nanoTime();	
+    	int x = 0;
+    	int y = 999;
+//    	int test = 1000301;
+    	int result = 0;
+//    	boolean isPalindrome = isPalindrome(test);
+    	while(y>900) {
+    		int reduction = 0;
+    		if(y%11 != 0) {
+    			x = 990;
+    			reduction = 11;
+    		} else {
+    			x = y;
+    			reduction = 1;
+    		}
+	    	while(x>900) {
+	    		int product = x*y;
+	    		if(result >= product)
+	    			break;
+	    		else if(isPalindrome(product))
+					result = product;
+	    		else
+	    			x -= reduction;
+	    	}
+	    	y--;
+    	}
+    	System.out.println(result);
+    	System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
     }
+    public boolean isPalindrome(int num) {
+    	String str = String.valueOf(num);
+    	int size = str.length();
+    	
+    	for(int i=0; i<size/2; i++) {
+    		if(str.charAt(i) != str.charAt(size - 1 - i))
+    			return false;
+    	}
+    	return true;
+    }
+    
+    /**Smallest multiple
+	2520 is the smallest number that can be divided by each of the numbers 
+	from 1 to 10 without any remainder.
+
+	What is the smallest positive number that is evenly divisible 
+	by all of the numbers from 1 to 20?
+    ANSWER = 232792560
+    Time elapsed in seconds: 0.0009085
+    */
+    @Test
+    void q5_Smallest_multiple () {
+        int limit = 20;
+        long startTime = System.nanoTime();	
+        int x = 2;
+        long result = 1;
+        List<Integer> ls = new ArrayList<>();
+        while(x<= limit) {
+        	int div = x;
+        	for(int i=0; i<ls.size(); i++) {
+        		if(div % ls.get(i) == 0) {
+                    div = div/ls.get(i);
+                }
+        	}
+        	ls.add(div);
+        	result *= div;
+        	x++;
+        }
+    	System.out.println(result);
+        ls.forEach(System.out::println);
+    	System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
+    }
+
+    /**Sum square difference
+     The sum of the squares of the first ten natural numbers is 385
+
+     The square of the sum of the first ten natural numbers is 3025
+
+     Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is
+     3025 - 385 = 2640
+
+     Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+     ANSWER = 25164150
+     Time elapsed in seconds: 0.0000783
+     */
+    @Test
+    void q6_Sum_square_difference () {
+        int limit = 100;
+        long startTime = System.nanoTime();
+        int sum = limit * (limit + 1) / 2;
+        int sumSquared = sum * sum;
+        long product = limit * (limit + 1) * (2*limit + 1) / 6;
+
+        System.out.println(sumSquared - product);
+        System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
+    }
+
+    /**10001st prime
+     By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
+
+     What is the 10 001st prime number?
+     ANSWER = 104743
+     Time elapsed in seconds: 0.4373175
+     */
+    @Test
+    void q7_10001st_prime () {
+
+        long startTime = System.nanoTime();
+//        int prime = 2;
+        int limit = 10001;
+        int primeCount = 0;
+        int num = 2;
+        List<Integer> list = new ArrayList<>();
+
+        OUTER:
+        while ( primeCount < limit){
+            for (Integer prime : list) {
+                if (num % prime == 0) {
+                    num++;
+                    continue OUTER;
+                }
+            }
+            list.add(num++);
+            primeCount++;
+        }
+
+        System.out.println("primeCount: " + primeCount);
+        System.out.println("Last prime: " + list.get(list.size() - 1));
+//        list.forEach(System.out::println);
+        System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
+    }
+
+    /**Largest product in a series
+     The four adjacent digits in the 1000-digit number that have the greatest product are 9 × 9 × 8 × 9 = 5832.
+
+     73167176531330624919225119674426574742355349194934
+     96983520312774506326239578318016984801869478851843
+     85861560789112949495459501737958331952853208805511
+     12540698747158523863050715693290963295227443043557
+     66896648950445244523161731856403098711121722383113
+     62229893423380308135336276614282806444486645238749
+     30358907296290491560440772390713810515859307960866
+     70172427121883998797908792274921901699720888093776
+     65727333001053367881220235421809751254540594752243
+     52584907711670556013604839586446706324415722155397
+     53697817977846174064955149290862569321978468622482
+     83972241375657056057490261407972968652414535100474
+     82166370484403199890008895243450658541227588666881
+     16427171479924442928230863465674813919123162824586
+     17866458359124566529476545682848912883142607690042
+     24219022671055626321111109370544217506941658960408
+     07198403850962455444362981230987879927244284909188
+     84580156166097919133875499200524063689912560717606
+     05886116467109405077541002256983155200055935729725
+     71636269561882670428252483600823257530420752963450
+
+     Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?
+     ANSWER = 23514624000
+     Time elapsed in seconds: 0.0125829
+     */
+    @Test
+    void q8_Largest_product_in_a_series () {
+
+        long startTime = System.nanoTime();
+        String num =
+        "73167176531330624919225119674426574742355349194934" +
+        "96983520312774506326239578318016984801869478851843" +
+        "85861560789112949495459501737958331952853208805511" +
+        "12540698747158523863050715693290963295227443043557" +
+        "66896648950445244523161731856403098711121722383113" +
+        "62229893423380308135336276614282806444486645238749" +
+        "30358907296290491560440772390713810515859307960866" +
+        "70172427121883998797908792274921901699720888093776" +
+        "65727333001053367881220235421809751254540594752243" +
+        "52584907711670556013604839586446706324415722155397" +
+        "53697817977846174064955149290862569321978468622482" +
+        "83972241375657056057490261407972968652414535100474" +
+        "82166370484403199890008895243450658541227588666881" +
+        "16427171479924442928230863465674813919123162824586" +
+        "17866458359124566529476545682848912883142607690042" +
+        "24219022671055626321111109370544217506941658960408" +
+        "07198403850962455444362981230987879927244284909188" +
+        "84580156166097919133875499200524063689912560717606" +
+        "05886116467109405077541002256983155200055935729725" +
+        "71636269561882670428252483600823257530420752963450";
+        System.out.println("Size of the num: " + num.length());
+        List<Integer> list = Arrays.stream(num.split(""))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        long product = 1L;
+        int limit = 13;
+        List<Integer> productList = new ArrayList<>();
+
+        for (int i = 0; i < list.size() - limit; i++) {
+            int counter = 0;
+            long tempProduct = 1L;
+            List<Integer> tempList = new ArrayList<>();
+            while(counter++ < limit) {
+                int numTemp = list.get(i + counter);
+                tempProduct *= numTemp;
+                tempList.add(numTemp);
+            }
+            if (tempProduct > product) {
+                product = tempProduct;
+                productList = tempList;
+            }
+
+        }
+        productList.forEach(System.out::print);
+        System.out.println("\n" + product);
+        System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
+    }
+
+    /**Special Pythagorean triplet
+     A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
+
+     a^2 + b^2 = c^2
+     For example, 3^2 + 4^2 = 9 + 16 = 25 = 5^2.
+
+     There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+     Find the product abc.
+
+     ANSWER = 31875000
+     Time elapsed in seconds: 0.0223956
+     */
+    @Test
+    void q9_Special_Pythagorean_triplet () {
+
+        long startTime = System.nanoTime();
+        int limit = 1000;
+        int a = 0,b = 0,c = 0;
+        int result = 0;
+        OUTER:
+        for (int i = 1; i < limit-1 ; i++) {
+            for (int j = 1; j < limit-1; j++) {
+                if ((Math.pow(i, 2) + Math.pow(j, 2) ) == Math.pow(limit - i - j, 2)) {
+                    a = i;
+                    b = j;
+                    c = limit - i - j;
+                    result = a * b * c;
+                    break OUTER;
+                }
+            }
+        }
+        System.out.println("a:" + a + ", b:" + b + ", c:" + c);
+        System.out.println("result:" + result);
+        System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
+    }
+
+    /**Summation of primes
+     The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+
+     Find the sum of all the primes below two million.
+
+     ANSWER = 142913828922
+     Time elapsed in seconds: 0.0223956
+     */
+    @Test
+    void q10_Summation_of_primes () {
+
+        long startTime = System.nanoTime();
+        long limit = 2000000;
+//        int limit = 10;
+        long sum = 2;
+        long num = 3;
+        List<Long> list = new ArrayList<>();
+
+        OUTER:
+        while ( num < limit ){
+            for (Long prime : list) {
+                if (num % prime == 0) {
+                    num++;
+                    continue OUTER;
+                } else if (prime > Math.sqrt(num))
+                    break;
+            }
+            sum += num;
+            list.add(num++);
+//            num += 2;
+        }
+
+        System.out.println("sum: " + sum);
+        System.out.println("Last prime: " + list.get(list.size() - 1));
+        System.out.println("Time elapsed in seconds: " + (System.nanoTime() - startTime) / 1000_000_000.0);
+    }
+    public static void main(String[] args) {
+        //get a number from 1 to 11 (inclusive)
+//    IntStream ints = new Random().ints(50, 1, 12);
+//
+//    ints.distinct().limit(6).sorted().forEach(System.out::println);
+        System.out.println(5^2);
+    }
+
 }
