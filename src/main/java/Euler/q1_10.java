@@ -1,3 +1,4 @@
+package Euler;
 
 import java.lang.reflect.Array;
 import java.math.BigInteger;
@@ -131,7 +132,7 @@ public class q1_10 {
     }
 
     /**Largest palindrome product
-	A palindromic number reads the same both ways. 
+	A palindromic number reads the same both ways.
 	The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
 
 	Find the largest palindrome made from the product of two 3-digit numbers.
@@ -171,19 +172,19 @@ public class q1_10 {
     public boolean isPalindrome(int num) {
     	String str = String.valueOf(num);
     	int size = str.length();
-    	
+
     	for(int i=0; i<size/2; i++) {
     		if(str.charAt(i) != str.charAt(size - 1 - i))
     			return false;
     	}
     	return true;
     }
-    
+
     /**Smallest multiple
-	2520 is the smallest number that can be divided by each of the numbers 
+	2520 is the smallest number that can be divided by each of the numbers
 	from 1 to 10 without any remainder.
 
-	What is the smallest positive number that is evenly divisible 
+	What is the smallest positive number that is evenly divisible
 	by all of the numbers from 1 to 20?
     ANSWER = 232792560
     Time elapsed in seconds: 0.0009085
@@ -468,7 +469,7 @@ public class q1_10 {
 //        int limit = 2000000;
       int limit = 100;
         int crossLimit = (int) Math.floor(Math.sqrt(limit));
-        
+
         long sum = 0;
 
         List<Integer> list = IntStream.range(2, limit).filter(x-> x%2 !=0 && x%3 != 0 && x%5 != 0).boxed().collect(Collectors.toList());
