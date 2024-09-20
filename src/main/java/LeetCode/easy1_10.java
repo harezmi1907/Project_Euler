@@ -1,4 +1,5 @@
 package LeetCode;
 
-public class easy1_10 {
+public class
+easy1_10 {
 }

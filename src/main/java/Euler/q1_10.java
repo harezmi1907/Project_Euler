@@ -322,7 +322,7 @@ public class q1_10 {
         System.out.println("Size of the num: " + num.length());
         List<Integer> list = Arrays.stream(num.split(""))
                 .map(Integer::parseInt)
-                .collect(Collectors.toList());
+                .toList();
         long product = 1L;
         int limit = 13;
         List<Integer> productList = new ArrayList<>();
@@ -472,7 +472,7 @@ public class q1_10 {
 
         long sum = 0;
 
-        List<Integer> list = IntStream.range(2, limit).filter(x-> x%2 !=0 && x%3 != 0 && x%5 != 0).boxed().collect(Collectors.toList());
+        List<Integer> list = IntStream.range(2, limit).filter(x-> x%2 !=0 && x%3 != 0 && x%5 != 0).boxed().toList();
 //        IntStream ints = IntStream.range(2, limit);
 
         list.forEach(i -> System.out.print(i + " "));
