@@ -5,24 +5,25 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 public class arrayAndStringLearn {
-//    public static void main(String[] args) {
-//        List<Integer> v1;
-//        Integer[] a = {0, 1, 2, 3, 4};
-//        v1 = new ArrayList<>(Arrays.asList(a));
-//        List<Integer> v3 = new ArrayList<>(v1);     // make an actual copy
-//        v3.set(0, -1);
-//        System.out.println(v3);
-//        // 8. sort
-//        Collections.sort(v3);
-//        // 9. add new element at the end of the vector
-//        v3.add(-1);
-//        System.out.println(v3);
-//        v3.add(1, 6);
-//        System.out.println(v3);
-//        // 10. delete the last element
-//        v3.remove(v3.size() - 1);
-//        System.out.println(v3);
-//    }
+    public static void main(String[] args) {
+        List<Integer> v1;
+        Integer[] a = {0, 1, 2, 3, 4};
+        v1 = new ArrayList<>(Arrays.asList(a));
+        List<Integer> v3 = new ArrayList<>(v1);     // make an actual copy
+        v3.set(0, -1);
+        System.out.println(v3);
+        // 8. sort
+        Collections.sort(v3);
+        // 9. add new element at the end of the vector
+        v3.add(-1);
+        System.out.println(v3);
+        v3.add(1, 6);
+        System.out.println(v3);
+        // 10. delete the last element
+        v3.remove(v3.size() - 1);
+        System.out.println(v3);
+    }
+
 
     @Test
     public void pivotIndex() {
@@ -304,90 +305,7 @@ public class arrayAndStringLearn {
         System.out.println(Arrays.toString(nums));
     }
 
-    public static class MyHashSet {
 
-        Bucket[] myBucket;
-        int hashKey;
-        int bucketSize;
-        int keySize = 1001001;
 
-        public MyHashSet() {
-            //prime number around the square root of key size
-            this.hashKey = 1001;
-            this.bucketSize = keySize / hashKey;
-            this.myBucket = new Bucket[hashKey];
-        }
 
-        public int hash(int key) {
-            return key % hashKey;
-        }
-
-        public int index(int key) {
-            return key / hashKey;
-        }
-
-        public void add(int key) {
-            int hash = hash(key);
-            int index = index(key);
-            Bucket newBucket = myBucket[hash];
-            if (newBucket == null) {
-                myBucket[hash] = new Bucket(bucketSize);
-            }
-            myBucket[hash].add(index, key);
-        }
-
-        public void remove(int key) {
-            int hash = hash(key);
-            int index = index(key);
-            if (myBucket[hash] == null) {
-                return;
-            }
-            myBucket[hash].remove(index);
-        }
-
-        public boolean contains(int key) {
-            int hash = hash(key);
-            int index = index(key);
-            if (myBucket[hash] == null) {
-                return false;
-            } else {
-                return myBucket[hash].contains(index);
-            }
-        }
-
-        private class Bucket {
-            int[] bucket;
-
-            public Bucket(int bucketSize) {
-                this.bucket = new int[bucketSize];
-                for (int i = 0; i < bucketSize; i++) {
-                    bucket[i] = -1;
-                }
-            }
-
-            public void add(int index, int key) {
-                bucket[index] = key;
-            }
-
-            public void remove(int index) {
-                bucket[index] = -1;
-            }
-
-            public boolean contains(int index) {
-                return bucket[index] != -1;
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        MyHashSet obj = new MyHashSet();
-        int key = 1000000;
-        obj.add(key);
-        obj.add(1);
-        obj.remove(key);
-        boolean param_3 = obj.contains(key);
-        boolean param_2 = obj.contains(1);
-        obj.remove(0);
-        System.out.println(param_3 + "\n" + param_2);
-    }
 }
