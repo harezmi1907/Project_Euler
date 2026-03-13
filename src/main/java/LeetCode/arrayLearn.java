@@ -1,14 +1,22 @@
 package LeetCode;
 
-import com.sun.jdi.request.BreakpointRequest;
 import org.junit.jupiter.api.Test;
 
-import java.awt.event.WindowFocusListener;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.Stack;
 
 public class arrayLearn {
+
+    public static void main(String[] args) {
+        Stack<Integer> stack = new Stack<>();
+        System.out.println(stack.size());
+        stack.add(null);
+        System.out.println(stack.size());
+        stack.add(null);
+        System.out.println(stack.peek());
+        stack.pop();
+    }
 
     @Test
     public void findNumbers1() {
